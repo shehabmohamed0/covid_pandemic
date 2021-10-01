@@ -1,11 +1,12 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:covid_pandemic/constants/strings.dart';
+import 'package:covid_pandemic/presentation/screens/screens.dart';
 import 'package:covid_pandemic/presentation/widgets/covid_bar_chart.dart';
 import 'package:covid_pandemic/presentation/widgets/custom_app_bar.dart';
 import 'package:covid_pandemic/presentation/widgets/stats_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_pandemic/config/palette.dart';
 import 'package:covid_pandemic/config/styles.dart';
-import 'package:covid_pandemic/data/data.dart';
 
 class StatsScreen extends StatefulWidget {
   @override

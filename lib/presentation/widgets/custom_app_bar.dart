@@ -1,3 +1,4 @@
+import 'package:covid_pandemic/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_pandemic/config/palette.dart';
 
@@ -16,7 +17,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
         IconButton(
           icon: const Icon(Icons.notifications_none),
           iconSize: 28.0,
-          onPressed: () {},
+          onPressed: () {
+            //_scaffoldKey.currentState!.openDrawer();
+          },
         ),
       ],
     );

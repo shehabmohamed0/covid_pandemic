@@ -1,9 +1,12 @@
+import 'package:covid_pandemic/constants/strings.dart';
 import 'package:covid_pandemic/presentation/widgets/country_dropdown.dart';
 import 'package:covid_pandemic/presentation/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_pandemic/config/palette.dart';
 import 'package:covid_pandemic/config/styles.dart';
-import 'package:covid_pandemic/data/data.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+
+import 'health_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: CustomAppBar(),
       body: CustomScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         slivers: <Widget>[
           _buildHeader(screenHeight),
           _buildPreventionTips(screenHeight),
@@ -90,7 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 10.0,
                         horizontal: 20.0,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        var isDone =
+                            await UrlLauncher.launch("tel:+91963852741");
+                        print(isDone);
+                      },
                       color: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -189,7 +196,10 @@ class _HomeScreenState extends State<HomeScreen> {
         height: screenHeight * 0.15,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFFAD9FE4), Palette.primaryColor],
+            colors: [
+              Color(0xFFAD9FE4),
+              Palette.primaryColor,
+            ],
           ),
           borderRadius: BorderRadius.circular(20.0),
         ),
