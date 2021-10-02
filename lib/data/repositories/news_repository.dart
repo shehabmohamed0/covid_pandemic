@@ -1,5 +1,5 @@
+import 'package:covid_pandemic/data/dataProviders/news_services.dart';
 import 'package:covid_pandemic/data/models/news.dart';
-import 'package:covid_pandemic/data/web_services/news_services.dart';
 import 'package:flutter/foundation.dart';
 
 class NewsRepository {

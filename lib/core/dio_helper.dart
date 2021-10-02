@@ -13,6 +13,7 @@ class CharactersWebServices {
     );
     dio = Dio(options);
   }
+
   Future<List<dynamic>> getAllCharacters() async {
     try {
       Response response = await dio.get('characters');
@@ -30,7 +31,6 @@ class CharactersWebServices {
           'author': charName,
         },
       );
-      print(response.data);
       return response.data;
     } catch (e) {
       return [];

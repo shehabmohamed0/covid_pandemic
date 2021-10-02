@@ -1,8 +1,9 @@
-import 'package:covid_pandemic/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:covid_pandemic/config/palette.dart';
+import 'package:covid_pandemic/core/constants/palette.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+  const CustomAppBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AppBar(

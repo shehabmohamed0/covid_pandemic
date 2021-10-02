@@ -1,12 +1,11 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
-import 'package:covid_pandemic/constants/strings.dart';
-import 'package:covid_pandemic/presentation/screens/screens.dart';
+import 'package:covid_pandemic/core/constants/palette.dart';
+import 'package:covid_pandemic/core/constants/strings.dart';
+import 'package:covid_pandemic/core/constants/styles.dart';
 import 'package:covid_pandemic/presentation/widgets/covid_bar_chart.dart';
 import 'package:covid_pandemic/presentation/widgets/custom_app_bar.dart';
 import 'package:covid_pandemic/presentation/widgets/stats_grid.dart';
 import 'package:flutter/material.dart';
-import 'package:covid_pandemic/config/palette.dart';
-import 'package:covid_pandemic/config/styles.dart';
 
 class StatsScreen extends StatefulWidget {
   @override
@@ -18,7 +17,7 @@ class _StatsScreenState extends State<StatsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: <Widget>[
@@ -43,12 +42,12 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   SliverPadding _buildHeader() {
-    return SliverPadding(
-      padding: const EdgeInsets.all(20.0),
+    return const SliverPadding(
+      padding: EdgeInsets.all(20.0),
       sliver: SliverToBoxAdapter(
         child: Text(
           'Statistics',
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: 25.0,
             fontWeight: FontWeight.bold,
@@ -70,7 +69,7 @@ class _StatsScreenState extends State<StatsScreen> {
             borderRadius: BorderRadius.circular(25.0),
           ),
           child: TabBar(
-            indicator: BubbleTabIndicator(
+            indicator: const BubbleTabIndicator(
               tabBarIndicatorSize: TabBarIndicatorSize.tab,
               indicatorHeight: 40.0,
               indicatorColor: Colors.white,
@@ -79,8 +78,8 @@ class _StatsScreenState extends State<StatsScreen> {
             labelColor: Colors.black,
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
-              Text('My Country'),
-              Text('Global'),
+              Text('State'),
+              Text('Country'),
             ],
             onTap: (index) {},
           ),

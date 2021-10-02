@@ -1,6 +1,6 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:covid_pandemic/config/styles.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:covid_pandemic/core/constants/styles.dart';
 
 class CovidBarChart extends StatelessWidget {
   final List<double> covidCases;
@@ -32,7 +32,7 @@ class CovidBarChart extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               height: 420,
               child: BarChart(
