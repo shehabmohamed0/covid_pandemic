@@ -1,7 +1,14 @@
-import 'package:covid_pandemic/core/constants/palette.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+
+import 'package:covid_pandemic/core/constants/state_to_iso.dart';
+import 'package:covid_pandemic/logic/cubit/statistics/statistics_cubit.dart';
 import 'package:covid_pandemic/presentation/screens/questions/question_screen.dart';
 import 'package:covid_pandemic/presentation/screens/statistics/statistics_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:covid_pandemic/presentation/widgets/drawer.dart';
 
 import '../health/health_screen.dart';
 import '../home/home_screen.dart';
@@ -14,52 +21,32 @@ class BottomNavScreen extends StatefulWidget {
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    String? state = await getCurrentState();
+    BlocProvider.of<StatisticsCubit>(context).initialize(stateCode: state!);
+  }
+
   final List _screens = [
     const HomeScreen(),
     StatsScreen(),
-    const QuestionsScreen(),
-    const Scaffold(),
+    const HealthScreen(),
+    const QuestionsScreen()
   ];
-  int _currentIndex = 0;
-  @override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Palette.primaryColor,
-          //other styles
-        ),
-        child: Drawer(
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              ListTile(
-                tileColor: Colors.white,
-                title: const Text(
-                  'Health Articles',
-                  style: TextStyle(),
-                ),
-                subtitle: const Text(''),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (c) => HealthScreen()));
-                },
-              ),
-              ListTile(
-                tileColor: Colors.white,
-                title: const Text(
-                  'Logout',
-                ),
-                onTap: () {},
-              ),
-            ],
-          ),
-        ),
-      ),
       body: _screens[_currentIndex],
+      drawer: const DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
@@ -100,5 +87,36 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             .toList(),
       ),
     );
+  }
+
+  Future<String?> getCurrentState() async {
+    bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!isServiceEnabled) {
+      await Geolocator.requestPermission();
+    }
+    var permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+    }
+    if (permission == LocationPermission.denied) {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
+    var position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    List<Placemark> list =
+        await GeocodingPlatform.instance.placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+    if (list.first.administrativeArea!.length > 2) {
+      var state = StateToIso.states[list.first.administrativeArea];
+      return state;
+    }
+    var state = list.first.administrativeArea;
+    return state;
   }
 }

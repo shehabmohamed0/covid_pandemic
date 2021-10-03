@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:covid_pandemic/core/constants/state_to_iso.dart';
 import 'package:covid_pandemic/data/models/country.dart';
 import 'package:covid_pandemic/data/models/state.dart';
 import 'package:covid_pandemic/data/repositories/statistics_repository.dart';
@@ -16,15 +17,16 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     try {
       State state = await statisticsRepository.getStateData(stateCode);
       Country country = await statisticsRepository.getCountryData();
-
+      print(stateCode);
       emit(StatisticsLoadedState(
           state: state,
           country: country,
           useState: true,
           today: false,
-          yesterday: false));
+          yesterday: false,
+          stateName: StateToIso.stateToName[stateCode]!));
     } catch (e) {
-      print('adasdas');
+      emit(StatisticsErrorState());
     }
   }
 

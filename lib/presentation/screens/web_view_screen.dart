@@ -1,3 +1,4 @@
+import 'package:covid_pandemic/core/constants/palette.dart';
 import 'package:covid_pandemic/data/models/news.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -11,6 +12,7 @@ class WebViewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(article.title),
+        backgroundColor: Palette.primaryColor,
       ),
       body: SafeArea(
         child: WebView(

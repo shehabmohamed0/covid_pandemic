@@ -2,9 +2,12 @@ import 'package:covid_pandemic/core/constants/palette.dart';
 import 'package:covid_pandemic/core/constants/state_to_iso.dart';
 import 'package:covid_pandemic/core/constants/strings.dart';
 import 'package:covid_pandemic/core/constants/styles.dart';
+import 'package:covid_pandemic/logic/cubit/authentication/authentication_cubit.dart';
 import 'package:covid_pandemic/presentation/widgets/country_dropdown.dart';
 import 'package:covid_pandemic/presentation/widgets/custom_app_bar.dart';
+import 'package:covid_pandemic/presentation/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -18,12 +21,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _country = 'USA';
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: _scaffoldKey,
       appBar: const CustomAppBar(),
+      drawer: const DrawerWidget(),
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: <Widget>[
@@ -99,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onPressed: () async {
                         var isDone =
-                            await UrlLauncher.launch("tel:+91963852741");
+                            await UrlLauncher.launch("tel:+18002320233");
                         print(isDone);
                       },
                       color: Colors.red,

@@ -1,44 +1,37 @@
-class Question {
-  final String text;
-  final int percent;
-
-  const Question({required this.text, required this.percent});
-}
-
 class Questions {
-  static const chronicDiseases = [
-    Question(text: 'Kidney disease.', percent: 7),
-    Question(text: 'Chronic lung.', percent: 7),
-    Question(text: 'Diabetes.', percent: 5),
-    Question(text: 'Cancer for pregnant women.', percent: 8),
-    Question(text: 'Hypertension', percent: 8),
-    Question(text: 'The heart', percent: 7),
-  ];
-  static const possibleSymptoms = [
-    Question(text: 'Loss of sense of smell.', percent: 3),
-    Question(text: 'Loss of sense of taste.', percent: 3),
-    Question(text: 'Bone pain.', percent: 2),
-    Question(text: 'Increase in temperature.', percent: 3),
-    Question(text: 'Diarrhea.', percent: 2),
-    Question(text: 'Shortness of breath.', percent: 3),
-    Question(text: 'Headache.', percent: 1),
-    Question(text: 'Sore throat.', percent: 2),
-  ];
-  static const precautionsToBeFollowed = [
-    Question(
-        text: 'Wash your hands well and use sanitizers such as alcohol etc..',
-        percent: 4),
-    Question(text: 'Wearing a mask in public places and gloves.', percent: 6),
-    Question(text: '-	Avoid crowded places.', percent: 6),
-  ];
+  static const chronicDiseases = {
+    'Kidney disease.': 8,
+    'Chronic lung.': 9,
+    'Diabetes.': 5,
+    'Cancer for pregnant women.': 8,
+    'Hypertension.': 8,
+    'The heart.': 7,
+  };
 
-  static const activitiesYouDo = [
-    Question(text: 'Work or study.', percent: 4),
-    Question(text: 'The shopping.', percent: 3),
-    Question(text: 'Public Transport.', percent: 4),
-    Question(text: 'Religious places, funerals or weddings.', percent: 4),
-    Question(text: 'Cinemas', percent: 4),
-    Question(text: 'Visiting relatives.', percent: 3),
-    Question(text: 'Strolling on the beach.', percent: 1),
-  ];
+  static const possibleSymptoms = {
+    'Loss of sense of smell.': 3,
+    'Loss of sense of taste.': 3,
+    'Bone pain.': 2,
+    'Increase in temperature.': 3,
+    'Diarrhea.': 2,
+    'Shortness of breath.': 3,
+    'Headache.': 1,
+    'Sore throat.': 2,
+  };
+
+  static const precautionsToBeFollowed = {
+    'Wash your hands well and use sanitizers such as alcohol etc..': 4,
+    'Wearing a mask in public places and gloves.': 6,
+    'Avoid crowded places.': 6
+  };
+
+  static const activitiesYouDo = {
+    'Work or study.': 4,
+    'The shopping.': 3,
+    'Public Transport.': 4,
+    'Religious places, funerals or weddings.': 4,
+    'Cinemas.': 4,
+    'Visiting relatives.': 3,
+    'Strolling on the beach.': 1,
+  };
 }

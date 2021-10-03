@@ -1,10 +1,9 @@
-import 'package:covid_pandemic/data/models/news.dart';
-import 'package:covid_pandemic/logic/cubit/articles/articles_cubit.dart';
-import 'package:covid_pandemic/presentation/screens/health/widgets/news_item.dart';
-import 'package:covid_pandemic/presentation/screens/web_view_screen.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:date_format/date_format.dart';
+import 'package:covid_pandemic/data/models/news.dart';
+import 'package:covid_pandemic/logic/cubit/articles/articles_cubit.dart';
+import 'package:covid_pandemic/presentation/screens/web_view_screen.dart';
 
 class HealthScreen extends StatefulWidget {
   const HealthScreen({Key? key}) : super(key: key);
@@ -14,8 +13,10 @@ class HealthScreen extends StatefulWidget {
 }
 
 class _HealthScreenState extends State<HealthScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   late Image image1;
   late Image image2;
+
   @override
   void initState() {
     super.initState();
@@ -23,36 +24,34 @@ class _HealthScreenState extends State<HealthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ArticlesCubit()..getNewsByCategory('health'),
-      child: Scaffold(
-        body: SafeArea(
-          child: BlocBuilder<ArticlesCubit, ArticlesState>(
-            builder: (BuildContext context, state) {
-              if (state is ArticlesLoaded) {
-                return ListView.separated(
-                    itemBuilder: (ctx, index) => newsItem(
-                        article: state.articles[index], context: context),
-                    itemCount: state.articles.length,
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                          height: 5,
-                        ));
-              } else if (state is Loading) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              } else if (state is Error) {
-                return Center(
-                  child: Text(
-                    "Error",
-                    style: TextStyle(color: Theme.of(context).errorColor),
-                  ),
-                );
-              }
-              return const Text('Something went wrong');
-            },
-          ),
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SafeArea(
+        child: BlocBuilder<ArticlesCubit, ArticlesState>(
+          builder: (BuildContext context, state) {
+            if (state is ArticlesLoaded) {
+              return ListView.separated(
+                  itemBuilder: (ctx, index) => newsItem(
+                      article: state.articles[index], context: context),
+                  itemCount: state.articles.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                        height: 5,
+                      ));
+            } else if (state is Loading) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            } else if (state is Error) {
+              return Center(
+                child: Text(
+                  "Error",
+                  style: TextStyle(color: Theme.of(context).errorColor),
+                ),
+              );
+            }
+            return const Text('Something went wrong');
+          },
         ),
       ),
     );

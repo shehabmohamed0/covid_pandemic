@@ -1,21 +1,14 @@
-import 'package:covid_pandemic/logic/cubit/statistics/statistics_cubit.dart';
-import 'package:covid_pandemic/presentation/routes/app_router.dart';
-import 'package:covid_pandemic/presentation/screens/bottom_nav/bottom_nav_screen.dart';
-import 'package:covid_pandemic/presentation/screens/landing/landing_page.dart';
-import 'package:covid_pandemic/presentation/screens/locationScreen/location_screen.dart';
-import 'package:covid_pandemic/presentation/screens/questions_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-
+import 'package:covid_pandemic/logic/cubit/statistics/statistics_cubit.dart';
+import 'package:covid_pandemic/presentation/routes/app_router.dart';
 import 'core/constants/palette.dart';
-import 'core/constants/state_to_iso.dart';
 import 'data/repositories/statistics_repository.dart';
+import 'logic/cubit/articles/articles_cubit.dart';
 import 'logic/cubit/authentication/authentication_cubit.dart';
 import 'logic/cubit/forgotPassword/forgot_password_cubit.dart';
 import 'logic/cubit/signIn/sign_in_cubit.dart';
@@ -59,6 +52,8 @@ class FoodApp extends StatelessWidget {
           create: (BuildContext context) =>
               StatisticsCubit(statisticsRepository: StatisticsRepository()),
         ),
+        BlocProvider(
+            create: (context) => ArticlesCubit()..getNewsByCategory('health'))
       ],
       child: BlocBuilder<ThemeCubit, bool>(
         builder: (ctx, state) => ScreenUtilInit(

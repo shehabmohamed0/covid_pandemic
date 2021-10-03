@@ -4,6 +4,7 @@ import 'package:covid_pandemic/core/constants/styles.dart';
 import 'package:covid_pandemic/logic/cubit/statistics/statistics_cubit.dart';
 import 'package:covid_pandemic/presentation/widgets/covid_bar_chart.dart';
 import 'package:covid_pandemic/presentation/widgets/custom_app_bar.dart';
+import 'package:covid_pandemic/presentation/widgets/drawer.dart';
 import 'package:covid_pandemic/presentation/widgets/stats_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,18 +20,17 @@ class _StatsScreenState extends State<StatsScreen> {
     return Scaffold(
       backgroundColor: Palette.primaryColor,
       appBar: const CustomAppBar(),
+      drawer: const DrawerWidget(),
       body: BlocConsumer<StatisticsCubit, StatisticsState>(
         listener: (context, state) {
-          if (state is StatisticsLoadedState) {
-            print(state.useState);
-          }
+          if (state is StatisticsLoadedState) {}
         },
         builder: (context, state) {
           if (state is StatisticsLoadedState) {
             return CustomScrollView(
               physics: const ClampingScrollPhysics(),
               slivers: <Widget>[
-                _buildHeader(),
+                _buildHeader(state),
                 _buildRegionTabBar(),
                 _buildStatsTabBar(),
                 SliverPadding(
@@ -68,13 +68,14 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
-  SliverPadding _buildHeader() {
+  SliverPadding _buildHeader(StatisticsLoadedState state) {
     return SliverPadding(
       padding: const EdgeInsets.all(20.0),
       sliver: SliverToBoxAdapter(
         child: Row(
-          children: const [
-            Text(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
               'Statistics',
               style: TextStyle(
                 color: Colors.white,
@@ -82,7 +83,11 @@ class _StatsScreenState extends State<StatsScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(''),
+            Text(
+              '${state.stateName}/USA',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            ),
           ],
         ),
       ),
@@ -110,7 +115,7 @@ class _StatsScreenState extends State<StatsScreen> {
             labelColor: Colors.black,
             unselectedLabelColor: Colors.white,
             tabs: const [
-              Text('State'),
+              Text('Current state'),
               Text('Country'),
             ],
             onTap: (index) {

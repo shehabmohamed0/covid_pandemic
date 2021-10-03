@@ -25,14 +25,15 @@ class StatisticsLoadedState extends StatisticsState {
   final bool useState;
   final bool today;
   final bool yesterday;
+  final String stateName;
 
-  const StatisticsLoadedState({
-    required this.state,
-    required this.country,
-    required this.useState,
-    required this.today,
-    required this.yesterday,
-  });
+  const StatisticsLoadedState(
+      {required this.state,
+      required this.country,
+      required this.useState,
+      required this.today,
+      required this.yesterday,
+      required this.stateName});
 
   StatisticsLoadedState copyWith(
           {bool? useState, bool? today, bool? yesterday}) =>
@@ -42,6 +43,7 @@ class StatisticsLoadedState extends StatisticsState {
         useState: useState ?? this.useState,
         today: today ?? this.today,
         yesterday: yesterday ?? this.yesterday,
+        stateName: stateName,
       );
 
   @override
