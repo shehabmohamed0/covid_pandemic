@@ -64,19 +64,26 @@ class CovidBarChart extends StatelessWidget {
                         getTitles: (double value) {
                           switch (value.toInt()) {
                             case 0:
-                              return formatDate(covidCases[0].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[0].date, [M, '-', dd]);
                             case 1:
-                              return formatDate(covidCases[1].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[1].date, [M, '-', dd]);
                             case 2:
-                              return formatDate(covidCases[2].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[2].date, [M, '-', dd]);
                             case 3:
-                              return formatDate(covidCases[3].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[3].date, [M, '-', dd]);
                             case 4:
-                              return formatDate(covidCases[4].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[4].date, [M, '-', dd]);
                             case 5:
-                              return formatDate(covidCases[5].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[5].date, [M, '-', dd]);
                             case 6:
-                              return formatDate(covidCases[6].date, [MM, dd]);
+                              return formatDate(
+                                  covidCases[6].date, [M, '-', dd]);
                             default:
                               return '';
                           }
