@@ -9,7 +9,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -66,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   country: _country,
                   onChanged: (val) => setState(() => _country = val!),
                 ),
+                //Text(widget.state!),
               ],
             ),
             SizedBox(height: screenHeight * 0.03),

@@ -29,8 +29,8 @@ class AppRouter {
             builder: (ctx) => const ForgotPasswordScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (ctx) => const HomeScreen());
-      case healthScreen:
-        return MaterialPageRoute(builder: (ctx) => const HealthScreen());
+      // case healthScreen:
+      //   return MaterialPageRoute(builder: (ctx) => const HealthScreen());
       case bottomNavScreen:
         return MaterialPageRoute(builder: (ctx) => const BottomNavScreen());
     }

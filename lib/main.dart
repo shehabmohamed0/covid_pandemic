@@ -57,8 +57,7 @@ class FoodApp extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (BuildContext context) =>
-              StatisticsCubit(statisticsRepository: StatisticsRepository())
-                ..initialize(stateCode: 'LA'),
+              StatisticsCubit(statisticsRepository: StatisticsRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, bool>(

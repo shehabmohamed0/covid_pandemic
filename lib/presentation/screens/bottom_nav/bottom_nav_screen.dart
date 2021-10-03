@@ -1,6 +1,7 @@
 import 'package:covid_pandemic/core/constants/palette.dart';
 import 'package:covid_pandemic/core/constants/state_to_iso.dart';
 import 'package:covid_pandemic/logic/cubit/authentication/authentication_cubit.dart';
+import 'package:covid_pandemic/logic/cubit/statistics/statistics_cubit.dart';
 import 'package:covid_pandemic/presentation/screens/statistics/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,24 +20,26 @@ class BottomNavScreen extends StatefulWidget {
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  final List _screens = [
-    const HomeScreen(),
-    StatsScreen(),
-    const Scaffold(),
-    const Scaffold(),
-    const Scaffold(),
-  ];
   int _currentIndex = 0;
   @override
   void initState() {
-    getCurrentState();
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
+    String? state = await getCurrentState();
+    BlocProvider.of<StatisticsCubit>(context).initialize(stateCode: state!);
   }
+
+  final List _screens = [
+    HomeScreen(),
+    StatsScreen(),
+    const HealthScreen(),
+    const Scaffold(),
+    const Scaffold(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +54,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             children: [
               const SizedBox(
                 height: 40,
-              ),
-              ListTile(
-                tileColor: Colors.white,
-                title: const Text(
-                  'Health Articles',
-                  style: TextStyle(),
-                ),
-                subtitle: const Text(''),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (c) => HealthScreen()));
-                },
               ),
               ListTile(
                 tileColor: Colors.white,

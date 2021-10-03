@@ -22,14 +22,9 @@ class _HealthScreenState extends State<HealthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // BlocProvider.of<ArticlesCubit>(context, listen: false)
-    //     .getNewsByCategory('health');
     return BlocProvider(
       create: (context) => ArticlesCubit()..getNewsByCategory('health'),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Health Screen'),
-        ),
         body: SafeArea(
           child: BlocBuilder<ArticlesCubit, ArticlesState>(
             builder: (BuildContext context, state) {
