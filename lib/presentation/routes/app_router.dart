@@ -15,6 +15,7 @@ class AppRouter {
   static const String homeScreen = '/home';
   static const String healthScreen = '/health';
   static const String bottomNavScreen = '/bottom-nav';
+  static const String webViewScreen = '/web-view';
 
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -29,7 +30,7 @@ class AppRouter {
             builder: (ctx) => const ForgotPasswordScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (ctx) => const HomeScreen());
-      // case healthScreen:
+      // case webV:
       //   return MaterialPageRoute(builder: (ctx) => const HealthScreen());
       case bottomNavScreen:
         return MaterialPageRoute(builder: (ctx) => const BottomNavScreen());

@@ -1,6 +1,7 @@
 import 'package:covid_pandemic/data/models/news.dart';
 import 'package:covid_pandemic/logic/cubit/articles/articles_cubit.dart';
 import 'package:covid_pandemic/presentation/screens/health/widgets/news_item.dart';
+import 'package:covid_pandemic/presentation/screens/web_view_screen.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,56 +59,67 @@ class _HealthScreenState extends State<HealthScreen> {
   }
 
   Widget newsItem({required Article article, required BuildContext context}) =>
-      Card(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              article.urlToImage.isNotEmpty
-                  ? FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/loading.gif',
-                      image: article.urlToImage,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 250,
-                      imageErrorBuilder: (BuildContext context, Object ob,
-                          StackTrace? stakeTrace) {
-                        return Image.asset('assets/images/error.gif');
-                      },
-                    )
-                  : Image.asset('assets/images/error.gif'),
-              Text(
-                article.title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+      InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => WebViewScreen(
+                article: article,
+              ),
+            ),
+          );
+        },
+        child: Card(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                article.urlToImage.isNotEmpty
+                    ? FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/loading.gif',
+                        image: article.urlToImage,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 250,
+                        imageErrorBuilder: (BuildContext context, Object ob,
+                            StackTrace? stakeTrace) {
+                          return Image.asset('assets/images/error.gif');
+                        },
+                      )
+                    : Image.asset('assets/images/error.gif'),
+                Text(
+                  article.title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textAlign: TextAlign.start,
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                textAlign: TextAlign.start,
-              ),
-              const Divider(
-                thickness: 5,
-                color: Colors.blueAccent,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    article.source.name,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    formatDate(article.publishedAt, [yyyy, '-', mm, '-', dd]),
-                    textAlign: TextAlign.start,
-                  ),
-                ],
-              ),
-            ],
+                const Divider(
+                  thickness: 5,
+                  color: Colors.blueAccent,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      article.source.name,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      formatDate(article.publishedAt, [yyyy, '-', mm, '-', dd]),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
