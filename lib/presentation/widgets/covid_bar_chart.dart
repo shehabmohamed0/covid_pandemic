@@ -1,11 +1,25 @@
+import 'package:covid_pandemic/data/models/state.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:covid_pandemic/core/constants/styles.dart';
 
 class CovidBarChart extends StatelessWidget {
-  final List<double> covidCases;
+  final List<ActualsTimesery> covidCases;
+  late double limit;
 
-  const CovidBarChart({Key? key, required this.covidCases}) : super(key: key);
+  CovidBarChart({
+    Key? key,
+    required this.covidCases,
+  }) : super(key: key) {
+    limit = 0;
+    covidCases.forEach((element) {
+      if (element.newCases > limit) {
+        limit = element.newCases.toDouble();
+      }
+    });
+    print(covidCases.last);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,49 +52,42 @@ class CovidBarChart extends StatelessWidget {
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
-                  maxY: 16.0,
+                  maxY: (limit * 1.5),
                   barTouchData: BarTouchData(enabled: false),
                   titlesData: FlTitlesData(
-                    show: true,
-                    bottomTitles: SideTitles(
-                      margin: 10.0,
-                      showTitles: true,
-                      getTextStyles: (_, __) => Styles.chartLabelsTextStyle,
-                      rotateAngle: 35.0,
-                      getTitles: (double value) {
-                        switch (value.toInt()) {
-                          case 0:
-                            return 'May 24';
-                          case 1:
-                            return 'May 25';
-                          case 2:
-                            return 'May 26';
-                          case 3:
-                            return 'May 27';
-                          case 4:
-                            return 'May 28';
-                          case 5:
-                            return 'May 29';
-                          case 6:
-                            return 'May 30';
-                          default:
-                            return '';
-                        }
-                      },
-                    ),
-                    leftTitles: SideTitles(
-                        margin: 10.0,
+                      show: true,
+                      bottomTitles: SideTitles(
+                        margin: 5.0,
                         showTitles: true,
                         getTextStyles: (_, __) => Styles.chartLabelsTextStyle,
-                        getTitles: (value) {
-                          if (value == 0) {
-                            return '0';
-                          } else if (value % 3 == 0) {
-                            return '${value ~/ 3 * 5}K';
+                        rotateAngle: 35.0,
+                        getTitles: (double value) {
+                          switch (value.toInt()) {
+                            case 0:
+                              return formatDate(covidCases[0].date, [MM, dd]);
+                            case 1:
+                              return formatDate(covidCases[1].date, [MM, dd]);
+                            case 2:
+                              return formatDate(covidCases[2].date, [MM, dd]);
+                            case 3:
+                              return formatDate(covidCases[3].date, [MM, dd]);
+                            case 4:
+                              return formatDate(covidCases[4].date, [MM, dd]);
+                            case 5:
+                              return formatDate(covidCases[5].date, [MM, dd]);
+                            case 6:
+                              return formatDate(covidCases[6].date, [MM, dd]);
+                            default:
+                              return '';
                           }
-                          return '';
-                        }),
-                  ),
+                        },
+                      ),
+                      rightTitles: SideTitles(
+                        reservedSize: 40,
+                        showTitles: true,
+                      ),
+                      leftTitles:
+                          SideTitles(reservedSize: 40, showTitles: true)),
                   gridData: FlGridData(
                     show: true,
                     checkToShowHorizontalLine: (value) => value % 3 == 0,
@@ -92,6 +99,8 @@ class CovidBarChart extends StatelessWidget {
                   ),
                   borderData: FlBorderData(show: false),
                   barGroups: covidCases
+                      .map((e) => e.newCases)
+                      .toList()
                       .asMap()
                       .map((key, value) => MapEntry(
                           key,
@@ -99,7 +108,7 @@ class CovidBarChart extends StatelessWidget {
                             x: key,
                             barRods: [
                               BarChartRodData(
-                                y: value,
+                                y: value.toDouble(),
                                 colors: [Colors.red],
                               ),
                             ],

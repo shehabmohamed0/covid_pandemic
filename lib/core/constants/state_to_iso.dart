@@ -1,5 +1,5 @@
 class StateToIso {
-  Map<String, String> states = {
+  static Map<String, String> states = {
     "Alabama": "AL",
     "Alaska": "AK",
     "Arizona": " AZ",

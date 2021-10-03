@@ -1,5 +1,5 @@
 import 'package:covid_pandemic/core/constants/palette.dart';
-import 'package:covid_pandemic/presentation/screens/stats_screen.dart';
+import 'package:covid_pandemic/presentation/screens/statistics/statistics_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../health/health_screen.dart';

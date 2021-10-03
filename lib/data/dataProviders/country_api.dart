@@ -4,15 +4,15 @@ import 'package:http/http.dart' as http;
 
 const _apiKey = '1745cd71bf1d4c90974a31cde00fa7b1';
 
-class NewsApi {
+class CountryApi {
   final http.Client _httpClient = http.Client();
 
-  static final instance = NewsApi._init();
-  NewsApi._init();
+  static final instance = CountryApi._init();
+
+  CountryApi._init();
 
   //get the articles from the api as list
-  Future<Map<String, dynamic>> fetchArticles(
-      {required int pageIndex, required String category}) async {
+  Future<Map<String, dynamic>> fetchCountryInformation() async {
     final response =
         await _httpClient.get(Uri.parse('https://api.covidactnow.org/'
             'v2/'

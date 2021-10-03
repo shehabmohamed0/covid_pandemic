@@ -4,11 +4,13 @@
 
 import 'dart:convert';
 
+import 'package:covid_pandemic/data/models/data_model.dart';
+
 State stateFromJson(String str) => State.fromJson(json.decode(str));
 
 String stateToJson(State data) => json.encode(data.toJson());
 
-class State {
+class State implements DataModel {
   State({
     required this.state,
     required this.population,
@@ -48,6 +50,52 @@ class State {
         "riskLevelsTimeseries":
             List<dynamic>.from(riskLevelsTimeseries.map((x) => x.toJson())),
       };
+
+  @override
+  int get activeVaccinations => actuals.vaccinationsInitiated;
+
+  @override
+  int get negativeTests => actuals.negativeTests;
+
+  @override
+  int get positiveTests => actuals.positiveTests;
+
+  @override
+  int get totalCases => actuals.cases;
+
+  @override
+  int get populationNumber => population;
+
+  @override
+  int get totalDeaths => actuals.deaths;
+
+  @override
+  int get caseDensity => riskLevelsTimeseries.last.caseDensity;
+
+  @override
+  List<ActualsTimesery> get actualLastWeek {
+    List<ActualsTimesery> lastWeek = [];
+    for (int i = actualsTimeseries.length - 8;
+        i < actualsTimeseries.length;
+        i++) {
+      lastWeek.add(actualsTimeseries[i]);
+    }
+    return lastWeek;
+  }
+
+  @override
+  int get newCases => actuals.newCases;
+
+  @override
+  int get newDeath => actuals.newDeaths;
+
+  @override
+  int get yesterdayNewCases =>
+      actualsTimeseries[actualsTimeseries.length - 3].newCases;
+
+  @override
+  int get yesterdayNewDeath =>
+      actualsTimeseries[actualsTimeseries.length - 3].newDeaths;
 }
 
 class Actuals {

@@ -1,26 +1,63 @@
+import 'package:covid_pandemic/data/models/data_model.dart';
 import 'package:flutter/material.dart';
 
-class StatsGrid extends StatelessWidget {
+class StatisticsGrid extends StatelessWidget {
+  final DataModel dataModel;
+  final bool today;
+  final bool yesterday;
+
+  const StatisticsGrid({
+    Key? key,
+    required this.dataModel,
+    required this.today,
+    required this.yesterday,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.25,
       child: Column(
         children: <Widget>[
           Flexible(
             child: Row(
-              children: <Widget>[
-                _buildStatCard('Total Cases', '1.81 M', Colors.orange),
-                _buildStatCard('Deaths', '105 K', Colors.red),
+              children: [
+                _buildStatCard(
+                    (!today && !yesterday)
+                        ? 'Total Cases'
+                        : today
+                            ? 'Today\'s Cases'
+                            : 'yesterday\'Cases',
+                    (!today && !yesterday)
+                        ? '${dataModel.totalCases}'
+                        : today
+                            ? '${dataModel.newCases}'
+                            : '${dataModel.yesterdayNewCases}',
+                    Colors.orange),
+                _buildStatCard(
+                    (!today && !yesterday)
+                        ? 'Total Deaths'
+                        : today
+                            ? 'Today\'sDeaths'
+                            : 'yesterday\'Deaths',
+                    (!today && !yesterday)
+                        ? '${dataModel.totalDeaths}'
+                        : today
+                            ? '${dataModel.newDeath}'
+                            : '${dataModel.yesterdayNewDeath}',
+                    Colors.red),
               ],
             ),
           ),
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('Recovered', '391 K', Colors.green),
-                _buildStatCard('Active', '1.31 M', Colors.lightBlue),
-                _buildStatCard('Critical', 'N/A', Colors.purple),
+                _buildStatCard('Negative Tests', '${dataModel.negativeTests}',
+                    Colors.green),
+                _buildStatCard('Positive test', '${dataModel.positiveTests}',
+                    Colors.lightBlue),
+                _buildStatCard('Case density', '${dataModel.caseDensity}/5',
+                    Colors.purple),
               ],
             ),
           ),
@@ -50,12 +87,14 @@ class StatsGrid extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Text(
-              count,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+            FittedBox(
+              child: Text(
+                count,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

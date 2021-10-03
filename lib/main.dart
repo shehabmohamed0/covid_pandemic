@@ -1,3 +1,4 @@
+import 'package:covid_pandemic/logic/cubit/statistics/statistics_cubit.dart';
 import 'package:covid_pandemic/presentation/routes/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/constants/palette.dart';
+import 'data/repositories/statistics_repository.dart';
 import 'logic/cubit/authentication/authentication_cubit.dart';
 import 'logic/cubit/forgotPassword/forgot_password_cubit.dart';
 import 'logic/cubit/signIn/sign_in_cubit.dart';
@@ -44,6 +46,12 @@ class FoodApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (BuildContext context) => ForgotPasswordCubit(),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (BuildContext context) =>
+              StatisticsCubit(statisticsRepository: StatisticsRepository())
+                ..initialize(stateCode: 'LA'),
         ),
       ],
       child: BlocBuilder<ThemeCubit, bool>(
