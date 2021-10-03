@@ -16,7 +16,7 @@ part 'widgets/name_input.dart';
 
 part 'widgets/email_input.dart';
 
-part 'widgets/location_input.dart';
+// part 'widgets/location_input.dart';
 
 part 'widgets/password_input.dart';
 
@@ -35,27 +35,27 @@ class SignUpScreen extends StatelessWidget {
           BlocListener<AuthenticationCubit, AuthenticationState>(
             listener: (context, state) {
               if (state is AuthenticationSuccess) {
-                AwesomeDialog(
-                  context: context,
-                  animType: AnimType.SCALE,
-                  dialogType: DialogType.SUCCES,
-                  title: 'Success',
-                  desc:
-                      'You will shortly receive an email to setup a new password',
-                  btnOkOnPress: () {},
-                ).show();
+                // AwesomeDialog(
+                //   context: context,
+                //   animType: AnimType.SCALE,
+                //   dialogType: DialogType.SUCCES,
+                //   title: 'Success',
+                //   desc:
+                //       'You will shortly receive an email to setup a new password',
+                //   btnOkOnPress: () {},
+                // ).show();
 
                 context.read<SignUpCubit>().endSubmit();
+                Navigator.of(context).pop();
               } else if (state is AuthenticationError) {
-                AwesomeDialog(
-                  context: context,
-                  animType: AnimType.SCALE,
-                  dialogType: DialogType.SUCCES,
-                  title: 'Your password has been reset',
-                  desc:
-                      'You will shortly receive an email to setup a new password',
-                  btnOkOnPress: () {},
-                ).show();
+                // AwesomeDialog(
+                //   context: context,
+                //   animType: AnimType.SCALE,
+                //   dialogType: DialogType.ERROR,
+                //   title: 'Sorry',
+                //   desc: state.message,
+                //   btnOkOnPress: () {},
+                // ).show();
 
                 context.read<SignUpCubit>().endSubmit();
               }
@@ -64,7 +64,9 @@ class SignUpScreen extends StatelessWidget {
           BlocListener<SignUpCubit, SignUpState>(
             listener: (context, state) {
               if (state.status == FormzStatus.submissionInProgress) {
-                context.read<AuthenticationCubit>().signUp();
+                context
+                    .read<AuthenticationCubit>()
+                    .signUp(state.email.value, state.password.value);
               }
             },
           ),
@@ -102,7 +104,7 @@ class SignUpScreen extends StatelessWidget {
                       SizedBox(
                         height: 15.h,
                       ),
-                      const _LocationInput(),
+                      //const _LocationInput(),
                       SizedBox(
                         height: 15.h,
                       ),
@@ -147,7 +149,10 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   GoogleOutLinedButton(
                     text: 'Sign Up With Google',
-                    onPressed: () {},
+                    onPressed: () async {
+                      await BlocProvider.of<AuthenticationCubit>(context)
+                          .logInWithGoogle();
+                    },
                   ),
                 ],
               ),

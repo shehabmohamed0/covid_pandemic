@@ -9,9 +9,10 @@ class _SignUpButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return MainButton(
-            title: 'Sign Up'
-                '',
-            onPressed: state.signUpButtonAction(context));
+          title: 'Sign Up'
+              '',
+          onPressed: state.signUpButtonAction(context),
+        );
       },
     );
   }

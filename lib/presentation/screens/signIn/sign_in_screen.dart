@@ -1,3 +1,4 @@
+import 'package:covid_pandemic/core/constants/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,7 @@ class SignInScreen extends StatelessWidget {
                 AwesomeDialog(
                   context: context,
                   animType: AnimType.SCALE,
-                  dialogType: DialogType.SUCCES,
+                  dialogType: DialogType.ERROR,
                   title: 'Failed',
                   desc: state.message,
                   btnOkOnPress: () {},
@@ -136,11 +137,12 @@ class SignInScreen extends StatelessWidget {
                     height: 10.h,
                   ),
                   Center(
-                    child: GoogleElevatedButton(
-                      title: 'Sign In with Google',
+                    child: MainButton(
+                      color: Colors.blueGrey,
+                      title: 'Sign In Anonymous',
                       onPressed: () async {
                         await BlocProvider.of<AuthenticationCubit>(context)
-                            .logInWithGoogle();
+                            .signInAnounymous();
                       },
                     ),
                   ),

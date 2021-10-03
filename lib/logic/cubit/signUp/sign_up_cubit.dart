@@ -14,7 +14,7 @@ class SignUpCubit extends Cubit<SignUpState> {
       : super(const SignUpState(
             name: Name.pure(),
             email: Email.pure(''),
-            location: Name.pure(),
+            //location: Name.pure(),
             password: Password.pure(''),
             hidePassword: true,
             status: FormzStatus.invalid));
@@ -24,8 +24,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(
       state.copyWith(
         name: name,
-        status:
-            Formz.validate([name, state.email, state.location, state.password]),
+        status: Formz.validate([name, state.email, state.password]),
       ),
     );
   }
@@ -34,26 +33,24 @@ class SignUpCubit extends Cubit<SignUpState> {
     final email = Email.dirty(newEmail);
     emit(state.copyWith(
       email: email,
-      status:
-          Formz.validate([state.name, email, state.location, state.password]),
+      status: Formz.validate([state.name, email, state.password]),
     ));
   }
 
-  void locationChanged(String newLocation) {
-    final location = Name.dirty(newLocation);
-    emit(state.copyWith(
-      location: location,
-      status:
-          Formz.validate([state.name, state.email, location, state.password]),
-    ));
-  }
+  // void locationChanged(String newLocation) {
+  //   final location = Name.dirty(newLocation);
+  //   emit(state.copyWith(
+  //     location: location,
+  //     status:
+  //         Formz.validate([state.name, state.email, location, state.password]),
+  //   ));
+  // }
 
   void passwordChanged(String newPassword) {
     final password = Password.dirty(newPassword);
     emit(state.copyWith(
       password: password,
-      status:
-          Formz.validate([state.name, state.email, state.location, password]),
+      status: Formz.validate([state.name, state.email, password]),
     ));
   }
 
@@ -70,15 +67,13 @@ class SignUpCubit extends Cubit<SignUpState> {
   void revalidate() {
     var name = state.name;
     var email = state.email;
-    var location = state.location;
     var password = state.password;
     emit(
       state.copyWith(
           name: Name.dirty(name.value),
           email: Email.dirty(email.value),
-          location: Name.dirty(location.value),
           password: Password.dirty(password.value),
-          status: Formz.validate([name, email, location, password])),
+          status: Formz.validate([name, email, password])),
     );
   }
 

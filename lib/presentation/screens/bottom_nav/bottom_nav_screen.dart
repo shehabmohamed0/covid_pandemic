@@ -1,6 +1,12 @@
 import 'package:covid_pandemic/core/constants/palette.dart';
+import 'package:covid_pandemic/core/constants/state_to_iso.dart';
+import 'package:covid_pandemic/logic/cubit/authentication/authentication_cubit.dart';
 import 'package:covid_pandemic/presentation/screens/statistics/statistics_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../health/health_screen.dart';
 import '../home/home_screen.dart';
@@ -22,6 +28,16 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   ];
   int _currentIndex = 0;
   @override
+  void initState() {
+    getCurrentState();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +69,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 title: const Text(
                   'Logout',
                 ),
-                onTap: () {},
+                onTap: () {
+                  BlocProvider.of<AuthenticationCubit>(context).signOut();
+                },
               ),
             ],
           ),
@@ -100,5 +118,39 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             .toList(),
       ),
     );
+  }
+
+  Future<String?> getCurrentState() async {
+    bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!isServiceEnabled) {
+      await Geolocator.requestPermission();
+    }
+    var permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+    }
+    if (permission == LocationPermission.denied) {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
+    var position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    List<Placemark> list =
+        await GeocodingPlatform.instance.placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+    print(list);
+    if (list.first.administrativeArea!.length > 2) {
+      var state = StateToIso.states[list.first.administrativeArea];
+      print(state);
+      return state;
+    }
+    var state = list.first.administrativeArea;
+    print(state);
+    return state;
   }
 }

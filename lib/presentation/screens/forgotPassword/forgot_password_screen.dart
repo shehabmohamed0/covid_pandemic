@@ -37,11 +37,11 @@ class ForgotPasswordScreen extends StatelessWidget {
 
               context.read<SignUpCubit>().endSubmit();
             } else if (state is AuthenticationError) {}
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Check internet connection'),
-              ),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(
+            //     content: Text('Check internet connection'),
+            //   ),
+            // );
           }),
           BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
             listener: (context, state) {

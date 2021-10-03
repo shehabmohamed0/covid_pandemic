@@ -60,4 +60,13 @@ class AuthenticationRepository {
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
   }
+
+  Future<void> signInAnonymous() async {
+    await _firebaseAuth.signInAnonymously();
+  }
+
+  Future<UserCredential> signUp(String email, String password) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+  }
 }

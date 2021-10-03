@@ -48,10 +48,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  Future<void> signUp() async {
+  Future<void> signUp(String email, String password) async {
     try {
       emit(AuthenticationInProgress());
-      await Future.delayed(const Duration(seconds: 1));
+      await _authenticationRepository.signUp(email, password);
       emit(AuthenticationSuccess());
     } on FirebaseAuthException catch (e) {
       emit(AuthenticationError(message: e.message!));
@@ -69,5 +69,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthenticationError(message: e.message!));
     }
+  }
+
+  Future<void> signInAnounymous() async {
+    emit(AuthenticationInProgress());
+    await _authenticationRepository.signInAnonymous();
+    emit(AuthenticationSuccess());
   }
 }
